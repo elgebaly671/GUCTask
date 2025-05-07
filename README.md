@@ -3,6 +3,7 @@ This project was built to help GUC students organize due dates of their quiz, as
 
 ## The Following technologies were used:
  - llama3-70b-8192 api, which is an api that allows us to make use of the llama-3  ai model that taked 70B paramters
+ - Puppeteer framework, allows webscrapping and extracting data from the announcement section and login automation to the cms
  - React.js
  - Express.js
  - Tailwind CSS
