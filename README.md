@@ -10,5 +10,6 @@ This project was built to help GUC students organize due dates of their quiz, as
 ##  Important note:
 The project is not fully functioning because of the following hurdles:
   - not all the professors write full announcements on the CMS and rather announce in the lecture itself, so data is not thoroughly extracted.
-  - the ai model has limits to the tokens it takes as an input and gives as an output which sometimes affects the analyzed data and make it not thoroughly analyzed
-because of these problems the project was not published to avoid inconvenice. 
+  - the ai model has limits to the tokens it takes as an input and gives as an output which sometimes affects the analyzed data and make it not thoroughly analyzed.
+    
+Because of these problems the project was not published to avoid inconvenice. 
