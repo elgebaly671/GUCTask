@@ -1,12 +1,14 @@
-# React + Vite
+## About the prject
+This project was built to help GUC students organize due dates of their quiz, assignments, exams and etc... by reading the data from the announcement section of the Content Management System (CMS) of GUC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## The Following technologies were used:
+ - llama3-70b-8192 api, which is an api that allows us to make use of the llama-3  ai model that taked 70B paramters
+ - React.js
+ - Express.js
+ - Tailwind CSS
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Important note:
+The project is not fully functioning because of the following hurdles:
+  - not all the professors write full announcements on the CMS and rather announce in the lecture itself, so data is not thoroughly extracted.
+  - the ai model has limits to the tokens it takes as an input and gives as an output which sometimes affects the analyzed data and make it not thoroughly analyzed
+because of these problems the project was not published to avoid inconvenice. 
