@@ -5,35 +5,58 @@ const {Groq} = pkg
 
 
 const groq = new Groq({apiKey: process.env.GROQ_API_KEY});
-const main = async (page, courses, data) => {
-  const announcement = data.map(
-    item => `Course: ${item.courseName}\n${item.Anouncontent}`
-  ).join("\n\n");
-
+const main = async (data) => {
+ 
+ const announcement = data.filter(item => item.Anouncontent?.trim())
+ .map(item => `Course: ${item.courseName}\n${item.Anouncontent}`).join("\n\n");
   try {
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
           role: "user",
-          content: `Instruction:\nAnalyze the following course announcements carefully.\nExtract and organize the key information into a structured JSON format.\n\nExtract the following fields:\n\nCourse Name (e.g., "Math-401")\n\nFor each announcement item:\n\nType (Assignment, Quiz, Exam, or Other)\nTitle (e.g., Assign-1, Quiz-2, Mid-Term Exam)\nRelevant Lectures (list of lecture numbers if mentioned)\nRelevant Worksheets (list of worksheet numbers if mentioned)\nDeadline (date or week mentioned)\nNotes (any additional important notes)\n\nRules:\nIf a field is missing, set it to null.\nDates should match exactly as written (e.g., "22nd of February, 2025").\nFocus only on the clearly mentioned data.\nKeep it general, not specific to any course type.\n\nInput:\n${announcement}`
+          content: `Instruction:\nAnalyze the following course announcements carefully.\nExtract and organize the key information into a structured JSON format.\n\nExtract the following fields:\n\nCourse Name (e.g., "Math-401")\n\nFor each announcement item:\n\nType (Assignment, Quiz, Exam, or Other)\nTitle (e.g., Assign-1, Quiz-2, Mid-Term Exam)\nRelevant Lectures (list of lecture numbers if mentioned)\nRelevant Worksheets (list of worksheet numbers if mentioned)\nDeadline (date or week mentioned)\nNotes (any additional important notes)\n\nRules:\nIf a field is missing, set it to null.\nDates should match exactly as written (e.g., "22nd of February, 2025").\nFocus only on the clearly mentioned data.\nKeep it general, not specific to any course type; Just give me the final repsonse without any side notes or any othe phrases, only the final JSON thing.\n\nInput:\n${announcement}`
         }
       ],
       model: "llama3-70b-8192",
       temperature: 1,
-      max_tokens: 1024,
+      max_tokens: 4096,
       top_p: 1
     });
     
 
       console.log("Chat completion response:", chatCompletion);  // Log the full response
-
       if (chatCompletion.choices && chatCompletion.choices[0]) {
-        console.log("Message object:", chatCompletion.choices[0]?.message);
-          const messageContent = chatCompletion.choices[0]?.message?.content;
-          console.log("Extracted content:", messageContent);  // Log the extracted content
+        const messageContent = chatCompletion.choices[0]?.message?.content;
+      console.log(messageContent)
+        // Extract content inside triple backticks
+        const match = messageContent.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+      
+        if (match && match[1]) {
+          let jsonString = match[1].trim();
+      
+          // Fix: remove trailing non-JSON characters after final closing bracket
+          const lastBrace = Math.max(jsonString.lastIndexOf("}"), jsonString.lastIndexOf("]"));
+          if (lastBrace !== -1) {
+            jsonString = jsonString.slice(0, lastBrace + 1);
+          }
+      
+          try {
+            console.log(jsonString)
+            const parsed = JSON.parse(jsonString);
+            console.log(" Parsed JSON:", parsed);
+          } catch (err) {
+            console.error(" Still failed to parse JSON:", err);
+            console.log(" Extracted string:", jsonString);
+          }
+        } else {
+          console.error(" No JSON block found.");
+          console.log(" Message content:", messageContent);
+        }
       } else {
-          console.log("Error: No choices or message content available");
+        console.error(" No choices or message content.");
       }
+      
+      
   } catch (error) {
       console.error("Error during Groq API request:", error);
   }
@@ -51,7 +74,7 @@ const getData = async (username, password)=> {
     const activeCourses = await getActiveCourses(page);
     console.log(activeCourses);
     const data = await getAnnouncement(page,activeCourses);
-    await main(page, activeCourses, data);
+    await main(data);
     await browser.close();
     return activeCourses;
 };
