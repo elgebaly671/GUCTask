@@ -43,6 +43,7 @@ const main = async (data) => {
           try {
             console.log(jsonString)
             const parsed = JSON.parse(jsonString);
+            return parsed;
             console.log(" Parsed JSON:", parsed);
           } catch (err) {
             console.error(" Still failed to parse JSON:", err);
@@ -74,9 +75,9 @@ const getData = async (username, password)=> {
     const activeCourses = await getActiveCourses(page);
     console.log(activeCourses);
     const data = await getAnnouncement(page,activeCourses);
-    await main(data);
+    const announcement = await main(data);
     await browser.close();
-    return activeCourses;
+    return [activeCourses, announcement];
 };
 const getActiveCourses = async (page) => {
     await page.waitForSelector('#ContentPlaceHolderright_ContentPlaceHoldercontent_GridViewcourses');

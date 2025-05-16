@@ -9,6 +9,7 @@ import './App.css';
 function App() {
   
   const [courses, setCourses] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
 
   // Handle login submission
   const submitted = () => {
@@ -22,10 +23,10 @@ function App() {
     return (
       <div id='login-cont'>
         <h2>Username: </h2>
-        <input type='text' id='usern' />
+        <input type='text' id='usern'/>
         <h2>Password:</h2>
-        <input type='password' id='pass' />
-        <button id='Sub' onClick={submitted}>Login</button>
+        <input type='password' id='pass'/>
+        <button id='Sub' onClick={submitted} className='rounded-full'>Login</button>
       </div>
     );
   }
@@ -42,10 +43,11 @@ function App() {
     });
 
     const data = await res.json();
-    localStorage.setItem('courses', JSON.stringify(data));
-    setCourses(data);
+    localStorage.setItem('courses', JSON.stringify(data[0]));
+    setAnnouncements(data[1])
+    setCourses(data[0]);
   };
-
+console.log(announcements)
   // Load saved courses on component mount
   useEffect(() => {
     const savedCourses = JSON.parse(localStorage.getItem('courses') || '[]');

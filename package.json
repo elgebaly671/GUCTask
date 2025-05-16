@@ -13,6 +13,7 @@
     "start_full_app": "concurrently \"npm run server\" \"npm run src\""
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.6",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -21,7 +22,8 @@
     "node-localStorage": "^0.0.1",
     "puppeteer": "^24.6.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

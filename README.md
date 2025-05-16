@@ -14,3 +14,5 @@ The project is not fully functioning because of the following hurdles:
   - the ai model has limits to the tokens it takes as an input and gives as an output which sometimes affects the analyzed data and make it not thoroughly analyzed.
     
 Because of these problems the project was not published to avoid inconvenice. 
+
+**Another Note:** Since the academic projects are of high priority, some work is postponed and the project is being built at a slow pace in order to keep focus on the academic ones
